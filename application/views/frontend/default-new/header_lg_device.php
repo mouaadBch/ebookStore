@@ -9,10 +9,10 @@ $number_of_unread_notification = $this->db->order_by('status ASC, id desc')->whe
     <!-- Mobile Offcanves  Icon Show -->
     <ul class="menu-offcanves">
       <li>
-        <!-- <div class="search-item">
+        <div class="search-item">
           <span class="m-cross-icon"><i class="fa-solid fa-xmark"></i></span>
           <span class="m-search-icon"> <i class="fa-solid fa-magnifying-glass"></i></span>
-        </div> -->
+        </div>
       </li>
       <li>
         <a href="<?= site_url("home/my_notifications") ?>" class="position-relative">
@@ -121,22 +121,16 @@ $number_of_unread_notification = $this->db->order_by('status ASC, id desc')->whe
         </ul>
       <?php endif; ?>
 
-      <!--  <form class="w-100" action="<?php #echo site_url('home/courses'); 
+        <form class="w-100" action="<?php echo site_url('ebook'); 
                                         ?>" method="get" style="max-width: 400px;">
         <div class="header-search py-0 px-2 w-100">
           <div class="search-container w-100">
-            <input id="headerSearchBarLg" name="query" type="text" class="search-input <?php #echo isset($_GET['query']) ? 'focused' : ''; 
-                                                                                        ?>" placeholder="<?php #echo get_phrase('Search'); 
-                                                                                                          ?>" value="<?php #echo isset($_GET['query']) ? $_GET['query'] : '';   
-                                                                                                                                                                        ?>">
-            <button type="submit" class="header-search-icon border-0 text-dark text-16px <?php #echo isset($_GET['query']) ? '' : 'd-hidden'; 
-                                                                                          ?>"><i class="fas fa-search"></i></button>
-            <label for="headerSearchBarLg" class="header-search-icon text-dark text-16px <?php #echo isset($_GET['query']) ? 'd-hidden' : ''; 
-                                                                                          ?>"><i class="fas fa-search"></i></label>
+            <input id="headerSearchBarLg" name="search" type="text" class="search-input <?php echo isset($_GET['search']) ? 'focused' : ''; ?>" placeholder="<?php echo get_phrase('Search'); ?>" value="<?php echo isset($_GET['search']) ? $_GET['search'] : '';   ?>">
+            <button type="submit" class="header-search-icon border-0 text-dark text-16px <?php echo isset($_GET['search']) ? '' : 'd-hidden'; ?>"><i class="fas fa-search"></i></button>
+            <label for="headerSearchBarLg" class="header-search-icon text-dark text-16px <?php echo isset($_GET['search']) ? 'd-hidden' : ''; ?>"><i class="fas fa-search"></i></label>
           </div>
         </div>
-      </form> -->
-
+      </form> 
       <div class="right-menubar ms-auto">
 
         <?php if ($user_login) : ?>
@@ -250,10 +244,10 @@ $number_of_unread_notification = $this->db->order_by('status ASC, id desc')->whe
     </div>
 
     <!-- Mobile Device Form -->
-    <form action="<?php echo site_url('home/courses'); ?>" method="get" class="inline-form">
+    <form action="<?php echo site_url('ebook'); ?>" method="get" class="inline-form">
       <div class="mobile-search test">
         <button type="submit" class="search-btn"><i class="fa-solid fa-magnifying-glass"></i></button>
-        <input value="<?php echo isset($_GET['query']) ? $_GET['query'] : ''; ?>" name="query" class="form-control" type="text" placeholder="<?php echo get_phrase('Search'); ?>" />
+        <input value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>" name="search" class="form-control" type="text" placeholder="<?php echo get_phrase('Search'); ?>" />
       </div>
     </form>
 

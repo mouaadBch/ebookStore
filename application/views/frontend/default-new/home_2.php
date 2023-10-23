@@ -22,8 +22,8 @@
                     </h1>
                     <p><?php echo site_phrase(get_frontend_settings('banner_sub_title')); ?></p>
                     <div class="h-2-search-bar">
-                        <form action="<?php echo site_url('home/search'); ?>" method="get">
-                            <input class="form-control" type="text" placeholder="<?php echo get_phrase('What do you want to learn'); ?>" name="query">
+                        <form action="<?php echo site_url('ebook'); ?>" method="get">
+                            <input class="form-control" type="text" placeholder="<?php echo get_phrase('What do you want to learn'); ?>" name="search">
                             <button class="search-btn" type="submit"><i class="fa fa-search"></i><?php echo get_phrase('Search') ?></button>
                         </form>
                     </div>
