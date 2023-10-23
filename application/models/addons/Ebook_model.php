@@ -771,4 +771,12 @@ class Ebook_model extends CI_Model
             ->get();
         return $query->result_array();
     }
+
+    public function get_latest_10_ebook()
+    {
+        $this->db->order_by("ebook_id", "desc");
+        $this->db->limit('10');
+        $this->db->where('is_active', 1);
+        return $this->db->get('ebook')->result_array();
+    }
 }

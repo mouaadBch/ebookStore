@@ -139,7 +139,7 @@
                         <div class="h-2-top-body" onclick="redirectTo('<?php echo site_url('ebook?category=' . $category_details['slug']); ?>')">
                             <div class="h-2-top" style="width: 150px !important;height: 150px !important;">
                                 <a href="<?php echo site_url('ebook?category=' . $category_details['slug']); ?>">
-                                    <img  style="width: 100px !important;height: 100px !important;" src="<?php echo base_url('uploads/ebook/thumbnails/category_thumbnails/' . $category_details['thumbnail']); ?>" alt="<?php echo $category_details['title']; ?>">
+                                    <img style="width: 100px !important;height: 100px !important;" src="<?php echo base_url('uploads/ebook/thumbnails/category_thumbnails/' . $category_details['thumbnail']); ?>" alt="<?php echo $category_details['title']; ?>">
                                 </a>
                             </div>
                             <a href="<?php echo site_url('ebook?category=' . $category_details['slug']); ?>"><?php echo $category_details['title']; ?></a>
@@ -154,10 +154,62 @@
 </section>
 <!---------- Top Categories end ------------->
 <!---------- Top courses Section start --------------->
-
 <!---------- Top courses Section End --------------->
 
 <!---------- Latest courses Section start --------------->
+<section class="courses grid-view-body pb-4">
+    <div class="container">
+        <h1 class="text-center"><span><?php echo site_phrase('top') . ' 10 ' . site_phrase('latest_courses'); ?></span></h1>
+        <p class="text-center"><?php echo site_phrase('These_are_the_most_latest_courses_among_Listen_Courses_learners_worldwide') ?></p>
+        <div class="courses-card">
+            <div class="course-group-slider ">
+                <?php
+                $latest_ebooks = $this->ebook_model->get_latest_10_ebook();
+                foreach ($latest_ebooks as $latest_ebook) :
+                    $total_rating =  $this->ebook_model->get_ratings($latest_ebook['ebook_id'], true)->row()->rating;
+                    $number_of_ratings = $this->ebook_model->get_ratings( $latest_ebook['ebook_id'])->num_rows();
+                    if ($number_of_ratings > 0) {
+                        $average_ceil_rating = ceil($total_rating / $number_of_ratings);
+                    } else {
+                        $average_ceil_rating = 0;
+                    }
+                ?>
+                    <div class="single-popup-course">
+                        <a href="<?php echo site_url('ebook/ebook_details/' . rawurlencode(slugify($latest_ebook['title'])) . '/' . $latest_ebook['ebook_id']); ?>" id="latest_course_<?php echo $latest_ebook['ebook_id']; ?>" class="checkPropagation courses-card-body">
+                            <div class="courses-card-image" style="height: 165px;">
+                                <img src="<?php echo $this->ebook_model->get_ebook_thumbnail_url($latest_ebook['ebook_id']); ?>">
+                            </div>
+                            <div class="courses-text">
+                                <h5 class="mb-2"><?php echo ellipsis($latest_ebook['title']); ?></h5>
+                                <div class="review-icon">
+                                    <div class="review-icon-star align-items-center">
+                                        <p><?php echo $average_ceil_rating; ?></p>
+                                        <p><i class="fa-solid fa-star <?php if ($number_of_ratings > 0) echo 'filled'; ?>"></i></p>
+                                        <p>(<?php echo $number_of_ratings; ?> <?php echo get_phrase('Reviews') ?>)</p>
+                                    </div>
+                                </div>
+                                <div class="courses-price-border">
+                                    <div class="courses-price">
+                                        <div class="courses-price-left">
+                                            <?php if ($latest_ebook['is_free']) : ?>
+                                                <h5><?php echo get_phrase('Free'); ?></h5>
+                                            <?php elseif ($latest_ebook['discount_flag']) : ?>
+                                                <h5><?php echo currency($latest_ebook['discounted_price']); ?></h5>
+                                                <p class="mt-1"><del><?php echo currency($latest_ebook['price']); ?></del></p>
+                                            <?php else : ?>
+                                                <h5><?php echo currency($latest_ebook['price']); ?></h5>
+                                            <?php endif; ?>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </div>
+    </div>
+</section>
 <!---------- Latest courses Section End --------------->
 
 <!---------  Expert Instructor Start ---------------->
@@ -300,7 +352,7 @@ if ($motivational) : ?>
                                     <div class="courses-price-border">
                                         <div class="courses-price">
                                             <div class="courses-price-left">
-                                                <img class="rounded-circle" src="<?php echo $this->user_model->get_user_image_url($user_details['id']); ?>">
+                                                <img class="rounded-circle" src="<?php echo $this->user_model->get_user_image_url($user_details['ebook_id']); ?>">
                                                 <h5><?php echo  substrFuction($user_details['last_name'], $user_details['first_name']); ?></h5>
                                             </div>
                                             <div class="courses-price-right ">

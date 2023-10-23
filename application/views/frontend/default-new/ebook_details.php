@@ -60,7 +60,7 @@ $user_id = $this->session->userdata('user_id');
                 <?php if($ebook_details['is_free']): ?>
                     <a href="<?php echo base_url('addons/ebook/view/'.$ebook_details['ebook_id']) ?>" class="btn btn-primary" type="button"><?php echo site_phrase('View'); ?></a>
                 <?php else: ?>
-                    <?php if(($this->db->get_where('ebook_payment', array('user_id' => $this->session->userdata('user_id'), 'ebook_id' => $ebook_details['ebook_id']))->num_rows() > 0) || ($this->db->get_where('ebook', array('user_id' => $this->session->userdata('user_id'), 'ebook_id' => $ebook_details['ebook_id']))->num_rows() > 0)|| (strtolower($this->session->userdata('role')) =="admin")): ?>
+                    <?php if(($this->db->get_where('ebook_payment', array('user_id' => $this->session->userdata('user_id'), 'ebook_id' => $ebook_details['ebook_id']))->num_rows() > 0) || ($this->db->get_where('ebook', array('user_id' => $this->session->userdata('user_id'), 'ebook_id' => $ebook_details['ebook_id']))->num_rows() > 0)|| (strtolower($this->session->userdata('role')??'') =="admin")): ?>
                         <a href="<?php echo base_url('addons/ebook/view/'.$ebook_details['ebook_id']) ?>" class="btn btn-primary" type="button"><?php echo site_phrase('View'); ?></a>
                     <?php else: ?>
                         <a href="<?php echo base_url('ebook/buy/'.$ebook_details['ebook_id']) ?>" class="btn btn-primary" type="button"><?php echo site_phrase('buy_now'); ?></a>
