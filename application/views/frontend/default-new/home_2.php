@@ -167,7 +167,7 @@
                 $latest_ebooks = $this->ebook_model->get_latest_10_ebook();
                 foreach ($latest_ebooks as $latest_ebook) :
                     $total_rating =  $this->ebook_model->get_ratings($latest_ebook['ebook_id'], true)->row()->rating;
-                    $number_of_ratings = $this->ebook_model->get_ratings( $latest_ebook['ebook_id'])->num_rows();
+                    $number_of_ratings = $this->ebook_model->get_ratings($latest_ebook['ebook_id'])->num_rows();
                     if ($number_of_ratings > 0) {
                         $average_ceil_rating = ceil($total_rating / $number_of_ratings);
                     } else {
