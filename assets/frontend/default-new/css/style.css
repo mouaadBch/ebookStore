@@ -887,7 +887,7 @@ p{
 	font-weight: 500;
 	padding: 7px 10px;
 	transition: .5s;
-	width: 250px;
+	width: 300px;
 	margin: 0 5px;
 	border-radius: 5px;
 }
@@ -1788,7 +1788,7 @@ p{
     color: var(--color-1);
     position: relative;
 }
-.top-categories h1::after{
+/*.top-categories h1::after{
     content: "";
     background-image: url("../image/h-1-shape.png");
     width: 160px;
@@ -1796,8 +1796,8 @@ p{
     position: absolute;
     background-size: 162px;
     top: 45px;
-    right: 180px;
-}
+    right: 180px; 
+}*/
 .category-product .category-product-body img{
     width: 44px;
     height: 45px;
