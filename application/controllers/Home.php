@@ -1909,10 +1909,10 @@ class Home extends CI_Controller
         $this->load->view('frontend/' . get_frontend_settings('theme') . '/index', $page_data);
     }
 
-    function become_a_tutor()
+    function motivational_speech_page()
     {
-        $page_data['page_title'] = get_phrase('become_a_tutor');
-        $page_data['page_name'] = 'become_a_tutor';
+        $page_data['page_title'] = get_phrase('Enseigner_sur_OSTADI');
+        $page_data['page_name'] = 'motivational_speech_page';
         $this->load->view('frontend/' . get_frontend_settings('theme') . '/index', $page_data);
     }
 }

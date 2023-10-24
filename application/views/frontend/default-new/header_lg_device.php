@@ -67,7 +67,16 @@ $number_of_unread_notification = $this->db->order_by('status ASC, id desc')->whe
         </ul>
       <?php endif; ?>
 
-      <?php if (($user_details['is_instructor'] ?? 0) != 1) : ?>
+      <ul class="navbar-nav main-nav-wrap mb-2 mb-lg-0 ms-2">
+        <li class="nav-item">
+          <a class="nav-link header-dropdown bg-white text-dark fw-600 text-nowrap" href="<?php echo site_url('home/motivational_speech_page'); ?>" id="navbarDropdown2">
+            <?php echo get_phrase('Enseigner_sur_OSTADI'); ?>
+          </a>
+        </li>
+      </ul>
+
+      <?php
+      if (empty($this->session->userdata('user_id')) || (($user_details['is_instructor'] ?? 0) == 1)) { ?>
         <ul class="navbar-nav main-nav-wrap mb-2 mb-lg-0 ms-2">
           <li class="nav-item">
             <a class="nav-link header-dropdown bg-white text-dark fw-600 text-nowrap" href="<?php
@@ -81,13 +90,15 @@ $number_of_unread_notification = $this->db->order_by('status ASC, id desc')->whe
                                                                                               echo site_url('page/new-tutors-sp');
                                                                                             } else {
                                                                                               echo site_url('page/new-tutors-fr');
-                                                                                            }
-                                                                                            ?>" id="navbarDropdown4">
-              <span class="ms-2"><?php echo site_phrase('Enseigner_sur_OSTADI'); ?></span>
+                                                                                            } ?>" id="navbarDropdown4">
+              <span class="ms-2"><?php echo site_phrase('tutorial'); ?></span>
             </a>
           </li>
         </ul>
-      <?php else : ?>
+      <?php  }
+      ?>
+
+      <?php if (($user_details['is_instructor'] ?? 0) == 1) : ?>
         <ul class="navbar-nav main-nav-wrap mb-2 mb-lg-0 ms-2">
           <li class="nav-item">
             <a class="nav-link header-dropdown bg-white text-dark fw-600 text-nowrap" href="<?= site_url('user') ?>" id="navbarDropdown4">
@@ -121,8 +132,8 @@ $number_of_unread_notification = $this->db->order_by('status ASC, id desc')->whe
         </ul>
       <?php endif; ?>
 
-        <form class="w-100" action="<?php echo site_url('ebook'); 
-                                        ?>" method="get" style="max-width: 400px;">
+      <form class="w-100" action="<?php echo site_url('ebook');
+                                  ?>" method="get" style="max-width: 400px;">
         <div class="header-search py-0 px-2 w-100">
           <div class="search-container w-100">
             <input id="headerSearchBarLg" name="search" type="text" class="search-input <?php echo isset($_GET['search']) ? 'focused' : ''; ?>" placeholder="<?php echo get_phrase('Search'); ?>" value="<?php echo isset($_GET['search']) ? $_GET['search'] : '';   ?>">
@@ -130,7 +141,7 @@ $number_of_unread_notification = $this->db->order_by('status ASC, id desc')->whe
             <label for="headerSearchBarLg" class="header-search-icon text-dark text-16px <?php echo isset($_GET['search']) ? 'd-hidden' : ''; ?>"><i class="fas fa-search"></i></label>
           </div>
         </div>
-      </form> 
+      </form>
       <div class="right-menubar ms-auto">
 
         <?php if ($user_login) : ?>
