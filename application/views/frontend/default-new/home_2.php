@@ -220,7 +220,7 @@
 <?php $motivational_speechs = json_decode(get_frontend_settings('motivational_speech'), true);
 $motivational = false;
 foreach ($motivational_speechs[$this->session->userdata('language')] as $item) {
-    if ($item['status'] == '1') {
+    if (($item['status'] == '1')&&(($item['place'] == 'home') || ($item['place'] == 'both'))) {
         $motivational = true;
         break;
     }
@@ -239,7 +239,7 @@ if ($motivational) : ?>
             <ul class="speech-items">
                 <?php $i = 0;
                 foreach ($motivational_speechs[$this->session->userdata('language')] as $key => $motivational_speech) : ?>
-                    <?php if ($motivational_speech['status'] == '1') : ?>
+                    <?php if (($motivational_speech['status'] == '1')&&(($motivational_speech['place'] == 'home') || ($motivational_speech['place'] == 'both'))) : ?>
                         <li>
                             <div class="speech-item">
                                 <div class="row align-items-center">

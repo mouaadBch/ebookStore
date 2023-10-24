@@ -4564,9 +4564,11 @@ class Crud_model extends CI_Model
                 $motivations[$language][0]['title'] = '';
                 $motivations[$language][0]['description'] = '';
                 $motivations[$language][0]['image'] = '';
+                $motivations[$language][0]['place'] = '';
             }else{
                 foreach($this->input->post('titles')[$language] as $key => $title){
                     $motivations[$language][$key]['status'] = $this->input->post('status')[$language][$key] ?? 0;
+                    $motivations[$language][$key]['place'] = $this->input->post('place')[$language][$key] ?? 'both';
                     $motivations[$language][$key]['title'] = $title ?? null;
                     $motivations[$language][$key]['description'] = $this->input->post('descriptions')[$language][$key] ?? null;
                     

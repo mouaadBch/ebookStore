@@ -13,8 +13,6 @@
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
-
-
                 <ul class="nav nav-pills bg-nav-pills nav-justified mb-3">
                     <li class="nav-item">
                         <a href="#frontendsettings" data-toggle="tab" aria-expanded="true" class="nav-link rounded-0 active">
@@ -237,22 +235,26 @@
                                             <div id = "motivational_speech_area_<?= $language ?>"  class="my-2 p-2" style="border: 3px solid #<?= rand(100000,999999)?>;">
                                                 <h4><?= $language ?></h4>
                                                 <?php foreach($motivational_speeches[$language] as $key => $motivational_speech): ?>
-                                                    <div class="d-flex mt-2">
+                                                    <div class="d-flex mt-2 border-top">
                                                         <div class="flex-grow-1 px-3 mb-3 row align-items-center">
-                                                            <div class="form-group col-md-8">
+                                                            <div class="form-group col-md-12">
                                                                 <label><?php echo get_phrase('Title'); ?></label>
                                                                 <input type="text" class="form-control" name="titles[<?= $language ?>][]" placeholder="<?php echo get_phrase('Title'); ?>" value="<?php echo $motivational_speech['title']; ?>">
                                                             </div>
-                                                            <div class="mb-2 col-md-4">
+                                                            <div class="mb-2 col-md-3">
                                                                 <label for="status" class="form-label">status</label>
                                                                 <select name="status[<?= $language ?>][]" id="status" required style="display: block;width: 100%;padding: 0.375rem 2.25rem 0.375rem 0.75rem;font-size: 1rem;font-weight: 400;">
                                                                     <option <?= ($motivational_speech[$key]['status']=="1")? "selected" : "" ?> value="1" ><?= site_phrase('active')?></option>
                                                                     <option <?= ($motivational_speech['status']=="0")? "selected" : "" ?> value="0"><?= site_phrase('inactive')?></option>
                                                                 </select>
                                                             </div>
-                                                            <div class="form-group  col-md-6">
-                                                                <label><?php echo get_phrase('Description'); ?></label>
-                                                                <textarea name="descriptions[<?= $language ?>][]" class="form-control" placeholder="<?php echo get_phrase('Description'); ?>"><?php echo $motivational_speech['description']; ?></textarea>
+                                                            <div class="mb-2 col-md-3">
+                                                                <label for="place" class="form-label">place</label>
+                                                                <select name="place[<?= $language ?>][]" id="place" required style="display: block;width: 100%;padding: 0.375rem 2.25rem 0.375rem 0.75rem;font-size: 1rem;font-weight: 400;">
+                                                                    <option <?= ($motivational_speech[$key]['place']=="home")? "selected" : "" ?> value="home" ><?= site_phrase('home')?></option>
+                                                                    <option <?= ($motivational_speech['place']=="page")? "selected" : "" ?> value="page"><?= site_phrase('page')?></option>
+                                                                    <option <?= ($motivational_speech['place']=="both")? "selected" : "" ?> value="both"><?= site_phrase('both')?></option>
+                                                                </select>
                                                             </div>
                                                             <div class="col-md-6">
                                                                 <div class="row align-items-center  ">
@@ -270,6 +272,10 @@
                                                                         <img src="<?php echo site_url('uploads/system/motivations/'.$motivational_speech['image']) ?>" style="width: 100%;max-width: 100px !important;" />
                                                                     </div>
                                                                 </div>
+                                                            </div>
+                                                            <div class="form-group  col-md-12">
+                                                                <label><?php echo get_phrase('Description'); ?></label>
+                                                                <textarea name="descriptions[<?= $language ?>][]" class="form-control" placeholder="<?php echo get_phrase('Description'); ?>"><?php echo $motivational_speech['description']; ?></textarea>
                                                             </div>
                                                         </div>
                                                         <?php if($key == 0): ?>
