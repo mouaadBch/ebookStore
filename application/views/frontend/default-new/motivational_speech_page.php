@@ -55,7 +55,7 @@
         </section>
     <?php endif; ?>
     <p class="text-center">
-     <a href="" class="text-center btn btn-md btn-primary"><?= site_phrase("join_now") ?></a>
+     <a href="<?= site_url('login') ?>" class="text-center btn btn-md btn-primary"><?= site_phrase("join_now") ?></a>
     </p>
 </div>
 <!---------  Motivetional Speech end ---------------->

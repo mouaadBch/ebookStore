@@ -123,11 +123,18 @@ class Ebook_model extends CI_Model
 
     public function get_ebook_banner_url($ebook_id = '')
     {
-        $banner = $this->db->get_where('ebook', array('ebook_id' => $ebook_id))->row('banner');
+        /*  $banner = $this->db->get_where('ebook', array('ebook_id' => $ebook_id))->row('banner');
         if (file_exists('uploads/ebook/banner/' . $banner))
             return base_url() . 'uploads/ebook/banner/' . $banner;
         else
-            return base_url() . 'uploads/ebook/banner/placeholder.png';
+            return base_url() . 'uploads/ebook/banner/placeholder.png'; */
+
+        $thumb = $this->db->get_where('ebook', array('ebook_id' => $ebook_id))->row('thumbnail');
+
+        if (file_exists('uploads/ebook/thumbnails/' . $thumb))
+            return base_url() . 'uploads/ebook/thumbnails/' . $thumb;
+        else
+            return base_url() . 'uploads/ebook/thumbnails/placeholder.png';
     }
 
     public function get_ebook_by_id($ebook_id = "")
@@ -231,6 +238,8 @@ class Ebook_model extends CI_Model
         $data['title'] = htmlspecialchars($this->input->post('title'));
         $data['description'] = htmlspecialchars(remove_js($this->input->post('description', false)));
         $data['category_id'] = htmlspecialchars($this->input->post('category_id'));
+        $data['is_download'] = ($this->input->post('is_download') != null) ? 1 : 0;
+        $data['video_url'] = ($this->input->post('video_url') != null) ? $this->input->post('video_url') : null;
         // $ext  = (new SplFileInfo($path))->getExtension();
         if ($_FILES['thumbnail']['name'] != "") {
             $ext  = (new SplFileInfo($_FILES['thumbnail']['name']))->getExtension();
@@ -290,6 +299,8 @@ class Ebook_model extends CI_Model
         $data['title'] = htmlspecialchars($this->input->post('title'));
         $data['description'] = htmlspecialchars(remove_js($this->input->post('description', false)));
         $data['category_id'] = htmlspecialchars($this->input->post('category_id'));
+        $data['is_download'] = ($this->input->post('is_download') != null) ? 1 : 0;
+        $data['video_url'] = ($this->input->post('video_url') != null) ? $this->input->post('video_url') : null;
         $ebook = $this->get_ebook_by_id($ebook_id)->row_array();
         if ($_FILES['thumbnail']['name'] != "") {
             $ext  = (new SplFileInfo($_FILES['thumbnail']['name']))->getExtension();
