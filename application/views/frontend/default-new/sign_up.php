@@ -7,8 +7,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-7 col-md-6 col-sm-12 col-12 text-center px-2">
-               <!--  <img width="65%" src="<?php #echo site_url('assets/frontend/default-new/image/login-security.gif') ?>"> -->
-               <iframe width="100%" height="400" src="https://www.youtube.com/embed/aVi3VxXqv-U?si=LPX1jibtm_mZN045" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                <img width="65%" src="<?php echo site_url('assets/frontend/default-new/image/login-security.gif') ?>">
+               <!-- <iframe width="100%" height="400" src="https://www.youtube.com/embed/aVi3VxXqv-U?si=LPX1jibtm_mZN045" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> -->
             </div>
             <div class="col-lg-5 col-md-6 col-sm-12 col-12 ">
                 <div class="sing-up-right">

@@ -553,18 +553,18 @@ class Admin extends CI_Controller
         // CHECK ACCESS PERMISSION
         check_permission('revenue');
 
-         /* code mouaad */
-         $page_data['selected_instructor_id'] = isset($_GET['instructor_id']) ? $_GET['instructor_id'] : "all";
-         if ($param1 != "") {
-             $date_range                   = $this->input->get('date_range');
-             $date_range                   = explode(" - ", $date_range);
-             $page_data['timestamp_start'] = strtotime($date_range[0] . ' 00:00:00');
-             $page_data['timestamp_end']   = strtotime($date_range[1] . ' 23:59:59');
-         } else {
-             $page_data['timestamp_start'] = strtotime(date("01/01/1970 00:00:00"));
-             $page_data['timestamp_end']   = strtotime(date("m/t/Y 23:59:59"));
-         }
-         /* code mouaad */
+        /* code mouaad */
+        $page_data['selected_instructor_id'] = isset($_GET['instructor_id']) ? $_GET['instructor_id'] : "all";
+        if ($param1 != "") {
+            $date_range                   = $this->input->get('date_range');
+            $date_range                   = explode(" - ", $date_range);
+            $page_data['timestamp_start'] = strtotime($date_range[0] . ' 00:00:00');
+            $page_data['timestamp_end']   = strtotime($date_range[1] . ' 23:59:59');
+        } else {
+            $page_data['timestamp_start'] = strtotime(date("01/01/1970 00:00:00"));
+            $page_data['timestamp_end']   = strtotime(date("m/t/Y 23:59:59"));
+        }
+        /* code mouaad */
 
         $page_data['page_name'] = 'instructor_revenue';
         $page_data['payment_history'] = $this->crud_model->get_revenue_by_user_type($page_data['timestamp_start'], $page_data['timestamp_end'], 'instructor_revenue', $page_data['selected_instructor_id']);
@@ -597,7 +597,7 @@ class Admin extends CI_Controller
         redirect(site_url('admin/enrol_history'), 'refresh');
     }
 
-    public function purchase_history($param1="")
+    public function purchase_history($param1 = "")
     {
         if ($this->session->userdata('admin_login') != true) {
             redirect(site_url('login'), 'refresh');
@@ -616,7 +616,7 @@ class Admin extends CI_Controller
         /* code mouaad */
 
         $page_data['page_name'] = 'purchase_history';
-        $page_data['purchase_history'] = $this->crud_model->purchase_history("",$page_data['timestamp_start'],$page_data['timestamp_end']);
+        $page_data['purchase_history'] = $this->crud_model->purchase_history("", $page_data['timestamp_start'], $page_data['timestamp_end']);
         $page_data['page_title'] = get_phrase('purchase_history');
         $this->load->view('backend/index', $page_data);
     }
@@ -1528,7 +1528,7 @@ class Admin extends CI_Controller
                 $this->crud_model->update_payout_status($payout_id, 'razorpay');
                 $this->session->set_flashdata('flash_message', get_phrase('payout_updated_successfully'));
             } else {
-                $this->session->set_flashdata('error_message', $response['status_msg']??null);
+                $this->session->set_flashdata('error_message', $response['status_msg'] ?? null);
             }
 
             redirect(site_url('admin/instructor_payout'), 'refresh');
@@ -2863,18 +2863,19 @@ class Admin extends CI_Controller
         }
     }
 
-    function update_language_direction(){
+    function update_language_direction()
+    {
         $language = $this->input->post('language');
         $dir = $this->input->post('dir');
         $language_dirs = get_settings('language_dirs') ? json_decode(get_settings('language_dirs'), true) : ['english' => 'ltr'];
-        
+
         $language_dirs[$language] = $dir;
 
         $data['value'] = json_encode($language_dirs);
 
-        if($this->db->get_where('settings', ['key' => 'language_dirs'])->num_rows() > 0){
+        if ($this->db->get_where('settings', ['key' => 'language_dirs'])->num_rows() > 0) {
             $this->db->where('key', 'language_dirs')->update('settings', $data);
-        }else{
+        } else {
             $data['key'] = 'language_dirs';
             $this->db->insert('settings', $data);
         }
@@ -2889,4 +2890,68 @@ class Admin extends CI_Controller
 
 
 
+    // code mouaad
+    public function enrol_student_ebook($param1 = "")
+    {
+        if ($this->session->userdata('admin_login') != true) {
+            redirect(site_url('login'), 'refresh');
+        }
+        // CHECK ACCESS PERMISSION
+        check_permission('enrolment');
+        if ($param1 == 'enrol') {
+            $course_id = $this->input->post('course_id');
+            $user_id   = $this->input->post('user_id');
+            $data['paid_amount'] =  0;
+            $data['ebook_id'] = $course_id;
+            $data['user_id'] = $user_id;
+            $data['payment_method'] = 'enrollment';
+            $data['payment_keys'] = json_encode(array('transaction_id' => '', 'session_id' => ''));
+            $data['admin_revenue'] = 0;
+            $data['instructor_revenue'] = 0;
+            $data['instructor_revenue'] = 0;
+            $data['admin_revenue'] = 0;
+            $data['added_date'] = time();
+            $data['instructor_payment_status'] = 0;
+            $payment = $this->db->get_where('ebook_payment', array('ebook_id' => $course_id, 'user_id' => $user_id));
+            if ($payment->num_rows() <= 0) {
+                $this->db->insert('ebook_payment', $data);
+            } else {
+                redirect(site_url('admin/enrol_history'), 'refresh');
+            }
+        }
+        $page_data['page_name'] = 'enrol_student_ebook';
+        $page_data['page_title'] = get_phrase('ebook_enrolment');
+        $this->load->view('backend/index', $page_data);
+    }
+
+    public function enrol_history_ebooks($param1 = "")
+    {
+        if ($this->session->userdata('admin_login') != true) {
+            redirect(site_url('login'), 'refresh');
+        }
+
+        // CHECK ACCESS PERMISSION
+        check_permission('enrolment');
+
+        if ($param1 != "") {
+            $date_range                   = $this->input->get('date_range');
+            $date_range                   = explode(" - ", $date_range);
+            $page_data['timestamp_start'] = strtotime($date_range[0]);
+            $page_data['timestamp_end']   = strtotime($date_range[1]);
+        } else {
+            $first_day_of_month = "1 " . date("M") . " " . date("Y") . ' 00:00:00';
+            $last_day_of_month = date("t") . " " . date("M") . " " . date("Y") . ' 23:59:59';
+            $page_data['timestamp_start']   = strtotime($first_day_of_month);
+            $page_data['timestamp_end']     = strtotime($last_day_of_month);
+        }
+        $page_data['page_name'] = 'enrol_history_ebooks';
+
+        $this->db->order_by('added_date', 'desc');
+        $this->db->where('added_date >=', $page_data['timestamp_start']);
+        $this->db->where('added_date <=', $page_data['timestamp_end']);
+        
+        $page_data['enrol_history'] = $this->db->get('ebook_payment');
+        $page_data['page_title'] = get_phrase('enrol_history_ebooks');
+        $this->load->view('backend/index', $page_data);
+    }
 }

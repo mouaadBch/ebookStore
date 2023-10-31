@@ -171,6 +171,21 @@ $status_with_tikite_pending = $this->db->where('status', 'opened')->get('tickets
 					</li>
 				</ul>
 			</li>
+			<li class="side-nav-item <?php if ($page_name == 'enrol_history_ebooks' || $page_name == 'enrol_student_ebook') : ?> active <?php endif; ?>">
+				<a href="javascript: void(0);" class="side-nav-link <?php if ($page_name == 'enrol_history_ebooks' || $page_name == 'enrol_student_ebook') : ?> active <?php endif; ?>">
+					<i class="dripicons-network-3"></i>
+					<span> <?php echo get_phrase('Enrollments_ebook'); ?> </span>
+					<span class="menu-arrow"></span>
+				</a>
+				<ul class="side-nav-second-level" aria-expanded="false">
+					<li class="<?php if ($page_name == 'enrol_student_ebook') echo 'active'; ?>">
+						<a href="<?php echo site_url('admin/enrol_student_ebook'); ?>"><?php echo get_phrase('course_enrollment'); ?></a>
+					</li>
+					<li class="<?php if ($page_name == 'enrol_history_ebooks') echo 'active'; ?>">
+						<a href="<?php echo site_url('admin/enrol_history_ebooks'); ?>"><?php echo get_phrase('enrol_history_ebooks'); ?></a>
+					</li>
+				</ul>
+			</li>
 		<?php endif; ?>
 
 		<?php if (has_permission('revenue')) : ?>
@@ -479,7 +494,7 @@ $status_with_tikite_pending = $this->db->where('status', 'opened')->get('tickets
 				<ul class="side-nav-second-level" aria-expanded="false">
 					<li class="<?php if ($page_name == 'tickets') echo 'active'; ?>">
 						<a href="<?php echo site_url('addons/customer_support/tickets/opened'); ?>"><?php echo get_phrase('ticket_list'); ?>
-						<span class="badge badge-danger-lighten"><?php echo $status_with_tikite_pending; ?></span></a>
+							<span class="badge badge-danger-lighten"><?php echo $status_with_tikite_pending; ?></span></a>
 					</li>
 					<li class="<?php if ($page_name == 'support_category') echo 'active'; ?>">
 						<a href="<?php echo site_url('addons/customer_support/get_support_categories'); ?>"><?php echo get_phrase('support_category'); ?></a>
@@ -529,8 +544,11 @@ $status_with_tikite_pending = $this->db->where('status', 'opened')->get('tickets
 						<a href="<?php echo site_url('admin/frontend_settings'); ?>"><?php echo get_phrase('website_settings'); ?></a>
 					</li>
 
-					<!-- <li class="<?php #if ($page_name == 'academy_cloud') echo 'active'; ?>">
-						<a href="<?php #echo site_url('admin/academy_cloud'); ?>"><?php #echo get_phrase('academy_cloud'); ?></a>
+					<!-- <li class="<?php #if ($page_name == 'academy_cloud') echo 'active'; 
+									?>">
+						<a href="<?php #echo site_url('admin/academy_cloud'); 
+									?>"><?php #echo get_phrase('academy_cloud'); 
+																					?></a>
 					</li> -->
 
 					<li class="<?php if ($page_name == 'drip_content_settings') echo 'active'; ?>">
