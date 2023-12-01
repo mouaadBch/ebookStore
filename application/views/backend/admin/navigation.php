@@ -133,6 +133,11 @@ $status_with_tikite_pending = $this->db->where('status', 'opened')->get('tickets
 					<li class="<?php if ($page_name == 'add_ebook') echo 'active'; ?>">
 						<a href="<?php echo site_url('ebook_manager/add_ebook'); ?>"><?php echo get_phrase('add_ebook'); ?></a>
 					</li>
+					<!-- code mouaad -->
+					<li class="<?php if ($page_name == 'add_flipbooks') echo 'active'; ?>">
+						<a href="<?php echo site_url('ebook_manager/add_flipbooks'); ?>"><?php echo get_phrase('add_flipbooks'); ?></a>
+					</li>
+					<!-- code mouaad -->
 					<li class="<?php if ($page_name == 'ebook_payment_history') echo 'active'; ?>">
 						<a href="javascript: void(0);" class="<?php if ($page_name == 'admin_revenue' || $page_name == 'instructor_revenue') : ?> active <?php endif; ?>" aria-expanded="false"><?php echo get_phrase('payment_history'); ?>
 							<span class="menu-arrow"></span>
@@ -548,7 +553,7 @@ $status_with_tikite_pending = $this->db->where('status', 'opened')->get('tickets
 									?>">
 						<a href="<?php #echo site_url('admin/academy_cloud'); 
 									?>"><?php #echo get_phrase('academy_cloud'); 
-																					?></a>
+										?></a>
 					</li> -->
 
 					<li class="<?php if ($page_name == 'drip_content_settings') echo 'active'; ?>">

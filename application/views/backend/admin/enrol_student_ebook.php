@@ -25,9 +25,9 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="multiple_course_id"><?php echo get_phrase('course_to_enrol'); ?><span class="required">*</span> </label>
+                        <label for="multiple_course_id"><?php echo get_phrase('ebook_to_enrol'); ?><span class="required">*</span> </label>
                         <select class="select2 form-control" data-toggle="select2" data-placeholder="Choose ..." name="course_id" id="multiple_course_id" required>
-                            <option value=""><?php echo get_phrase('select_a_course'); ?></option>
+                            <option value=""><?php echo get_phrase('select_a_ebook'); ?></option>
                             <?php $course_list = $this->db->where('is_active', 1)->get('ebook')->result_array();
                                 foreach ($course_list as $course): ?>
                                 <option value="<?php echo $course['ebook_id'] ?>"><?php echo $course['title']; ?></option>

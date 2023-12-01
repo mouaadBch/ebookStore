@@ -434,18 +434,69 @@ class Ebook extends CI_Controller
     function view($id = "", $is_pdf = "")
     {
         $ebook = $this->ebook_model->get_ebook_by_id($id)->row_array();
-        $file_path = 'uploads/ebook/file/ebook_full/' . $ebook['file'];
         /* code Mouaad */
-        $ebook_payment = $this->db->get_where('ebook_payment', array('user_id' => $this->session->userdata('user_id'), 'ebook_id' => $id))->num_rows();
-        $ebook_instructor = $this->db->get_where('ebook', array('user_id' => $this->session->userdata('user_id'), 'ebook_id' => $id))->num_rows();
-        $type_user = strtolower($this->session->userdata('role'));
-        if (($ebook_payment > 0) || ($ebook_instructor > 0) || ($type_user == "admin")||($ebook['is_free'] == 1 )) {
-            // check file exists
-            if (file_exists($file_path) && $is_pdf == 'pdf') {
-                // get file content
-                echo file_get_contents($file_path);
+        if ($this->session->userdata('user_id')) {
+            $file_path = 'uploads/ebook/file/ebook_full/' . $ebook['file'];
+            $ebook_payment = $this->db->get_where('ebook_payment', array('user_id' => $this->session->userdata('user_id'), 'ebook_id' => $id))->num_rows();
+            $ebook_instructor = $this->db->get_where('ebook', array('user_id' => $this->session->userdata('user_id'), 'ebook_id' => $id))->num_rows();
+            $type_user = strtolower($this->session->userdata('role'));
+            if (($ebook_payment > 0) || ($ebook_instructor > 0) || ($type_user == "admin") || ($ebook['is_free'] == 1)) {
+                // check file exists
+                if (file_exists($file_path) && $is_pdf == 'pdf') {
+                    // get file content
+                    echo file_get_contents($file_path);
+                } else {
+                    $this->load->view('frontend/' . get_frontend_settings('theme') . '/view', ['id' => $id, 'title' => $ebook['title']]);
+                }
             } else {
-                $this->load->view('frontend/' . get_frontend_settings('theme') . '/view', ['id' => $id, 'title' => $ebook['title']]);
+                redirect("ebook/ebook_details/" . slugify($ebook['title']) . "/" . $id, 'refresh');
+            }
+        } else {
+            redirect("ebook/ebook_details/" . slugify($ebook['title']) . "/" . $id, 'refresh');
+        }
+        /* code Mouaad */
+    }
+
+    function viewTurn($id = "", $is_pdf = "")
+    {
+        $ebook = $this->ebook_model->get_ebook_by_id($id)->row_array();
+        if ($this->session->userdata('user_id')) {
+            $file_path = 'uploads/ebook/file/ebook_full/' . $ebook['file'];
+            /* code Mouaad */
+            $ebook_payment = $this->db->get_where('ebook_payment', array('user_id' => $this->session->userdata('user_id'), 'ebook_id' => $id))->num_rows();
+            $ebook_instructor = $this->db->get_where('ebook', array('user_id' => $this->session->userdata('user_id'), 'ebook_id' => $id))->num_rows();
+            $type_user = strtolower($this->session->userdata('role'));
+            if (($ebook_payment > 0) || ($ebook_instructor > 0) || ($type_user == "admin") || ($ebook['is_free'] == 1)) {
+                // check file exists
+                if (file_exists($file_path) && $is_pdf == 'pdf') {
+                    // get file content
+                    echo file_get_contents($file_path);
+                } else {
+                    $this->load->view('frontend/' . get_frontend_settings('theme') . '/viewTurn', ['id' => $id, 'title' => $ebook['title']]);
+                }
+            } else {
+                redirect("ebook/ebook_details/" . slugify($ebook['title']) . "/" . $id, 'refresh');
+            }
+        } else {
+            redirect("ebook/ebook_details/" . slugify($ebook['title']) . "/" . $id, 'refresh');
+        }
+        /* code Mouaad */
+        /* code Mouaad */
+    }
+
+    function viewTurnContent($id = "", $is_pdf = "")
+    {
+        $ebook = $this->ebook_model->get_ebook_by_id($id)->row_array();
+        if ($this->session->userdata('user_id')) {
+            $file_path = 'uploads/ebook/file/ebook_full/' . $ebook['file'];
+            /* code Mouaad */
+            $ebook_payment = $this->db->get_where('ebook_payment', array('user_id' => $this->session->userdata('user_id'), 'ebook_id' => $id))->num_rows();
+            $ebook_instructor = $this->db->get_where('ebook', array('user_id' => $this->session->userdata('user_id'), 'ebook_id' => $id))->num_rows();
+            $type_user = strtolower($this->session->userdata('role'));
+            if (($ebook_payment > 0) || ($ebook_instructor > 0) || ($type_user == "admin") || ($ebook['is_free'] == 1)) {
+                $this->load->view('frontend/' . get_frontend_settings('theme') . '/viewTurnContent', ['id' => $id, 'ebook' => $ebook]);
+            } else {
+                redirect("ebook/ebook_details/" . slugify($ebook['title']) . "/" . $id, 'refresh');
             }
         } else {
             redirect("ebook/ebook_details/" . slugify($ebook['title']) . "/" . $id, 'refresh');
@@ -479,5 +530,4 @@ class Ebook extends CI_Controller
         }
     }
     /*code mouaad //*/
-
 }

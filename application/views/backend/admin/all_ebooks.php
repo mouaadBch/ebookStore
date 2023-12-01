@@ -48,7 +48,8 @@
                                     </td>
                                     <td>
                                         <a href="<?php echo site_url('ebook/ebook_details/'.rawurlencode(slugify($ebook['title'])).'/'.$ebook['ebook_id']) ?>" target="_blank"><?php echo $ebook['title']; ?></a><br>
-                                        <small class="text-muted"><?php echo date('d M Y', $ebook['added_date']); ?></small>
+                                        <small class="text-muted"><?php echo date('d M Y', $ebook['added_date']); ?></small><br>
+                                        <span class="badge badge-danger"> type : <?php echo ($ebook['type']=='flipbook')? get_phrase('flipbook') : get_phrase('ebook'); ?></span>
                                     </td>
                                     <td><?php echo $this->ebook_model->get_ebook_categories($ebook['category_id'])->row('title'); ?></td>
                                     <td>
@@ -64,7 +65,7 @@
                                                 <i class="mdi mdi-dots-vertical"></i>
                                             </button>
                                             <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="<?php echo site_url('addons/ebook_manager/edit_ebook/' . $ebook['ebook_id']); ?>"><?php echo get_phrase('edit'); ?></a></li>
+                                                <li><a class="dropdown-item" href="<?php echo ($ebook['type']=='flipbook') ? site_url('addons/ebook_manager/edit_flipbook/' . $ebook['ebook_id']) : site_url('addons/ebook_manager/edit_ebook/' . $ebook['ebook_id']) ; ?>"><?php echo get_phrase('edit'); ?></a></li>
                                                 <li><a class="dropdown-item" href="#" onclick="confirm_modal('<?php echo site_url('addons/ebook_manager/ebook/status/' . $ebook['ebook_id']); ?>');">
                                                 	<?php if($ebook['is_active'] == 1){echo get_phrase('mark_as_pending'); }else{ echo get_phrase('activate'); } ?>
                                                 </a></li>

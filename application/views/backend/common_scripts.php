@@ -1,11 +1,11 @@
 <script type="text/javascript">
   function changeTitleOfImageUploader(photoElem) {
-    var fileName = $(photoElem).val().replace(/C:\\fakepath\\/i, '');
+   /*  var fileName = $(photoElem).val().replace(/C:\\fakepath\\/i, '');
     $(photoElem).siblings('label').text(ellipsis(fileName));
-    <?php $upload_max_filesize_kb = str_replace('m', '', strtolower(ini_get('upload_max_filesize'))) * 1024; ?>
+    <?php #$upload_max_filesize_kb = str_replace('m', '', strtolower(ini_get('upload_max_filesize'))) * 1024; ?>
     if('<?php echo $upload_max_filesize_kb * 1024; ?>' <= photoElem.files[0].size){
-      error_notify('<?php echo get_phrase('Your server does not allow uploading files that large.').' '.get_phrase("Your servers file upload limit is ".($upload_max_filesize_kb/1024).'MB'); ?>');
-    }
+      error_notify('<?php #echo get_phrase('Your server does not allow uploading files that large.').' '.get_phrase("Your servers file upload limit is ".($upload_max_filesize_kb/1024).'MB'); ?>');
+    } */
   }
 
   function set_js_flashdata(url){

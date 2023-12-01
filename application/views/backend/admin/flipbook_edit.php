@@ -36,6 +36,12 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
 
                                 <ul class="nav nav-pills nav-justified form-wizard-header">
                                     <li class="nav-item">
+                                        <a href="#media" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
+                                            <i class="mdi mdi-library-video"></i>
+                                            <span class="d-none d-sm-inline"><?php echo get_phrase('content'); ?></span>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
                                         <a href="#basic" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                             <i class="mdi mdi-fountain-pen-tip"></i>
                                             <span class="d-none d-sm-inline"><?php echo get_phrase('basic'); ?></span>
@@ -49,12 +55,6 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#media" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
-                                            <i class="mdi mdi-library-video"></i>
-                                            <span class="d-none d-sm-inline"><?php echo get_phrase('ebook_files'); ?></span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
                                         <a href="#finish" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                             <i class="mdi mdi-checkbox-marked-circle-outline"></i>
                                             <span class="d-none d-sm-inline"><?php echo get_phrase('finish'); ?></span>
@@ -64,11 +64,52 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                 </ul>
 
                                 <div class="tab-content b-0 mb-0">
+                                    <div class="tab-pane my-4" id="media">
+                                        <div>
+                                            <div class="accordion" id="flipbook_content">
+                                                <?php
+                                                if ($ebook['flipbook_content'] != null) {
+                                                    $flipbookContent = json_decode($ebook['flipbook_content'], true);
+                                                    if (count($flipbookContent['pages']) > 0) {
+                                                        $y = 0;
+                                                        foreach ($flipbookContent['pages'] as $order => $content) {
+                                                            $y++; ?>
+                                                            <div class="card">
+                                                                <div class="card-header" id="heading<?= $y ?>">
+                                                                    <h2 class="mb-0 d-flex">
+                                                                        <button class="btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse<?= $y ?>" aria-controls="collapse<?= $y ?>">
+                                                                            page #<?= $order ?>
+                                                                        </button>
+                                                                        <button class="btn btn-link  text-right" onclick="showLargeModal('<?= site_url('modal/popup/flipbook_add_page_data?id=' . $ebook['ebook_id'] . '&order=' . $order); ?>','<?= get_phrase('edit page'); ?>')">
+                                                                            edit
+                                                                        </button>
+                                                                        <button class="btn btn-danger  text-right" onclick="confirm_modal('<?= site_url('addons/ebook_manager/page_data/' . $ebook['ebook_id'] . '/delete/' . $order) ?>')">
+                                                                            delete
+                                                                        </button>
+                                                                    </h2>
+                                                                </div>
+                                                                <div id="collapse<?= $y ?>" class="collapse" aria-labelledby="heading<?= $y ?>" data-parent="#flipbook_content">
+                                                                    <div class="card-body">
+                                                                        <?= htmlspecialchars_decode($content) ?>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                <?php }
+                                                    }
+                                                }
+                                                ?>
+                                            </div>
+                                        </div>
+
+                                        <div class="row justify-content-center">
+                                            <button class="btn btn-md btn-success" onclick="showLargeModal('<?= site_url('modal/popup/flipbook_add_page_data?id=' . $ebook['ebook_id']); ?>','<?= get_phrase('Add page'); ?>')"> Add New </button>
+                                        </div>
+                                    </div>
                                     <div class="tab-pane mt-4" id="basic">
                                         <div class="row justify-content-center">
                                             <div class="col-md-10">
 
-                                                </h4>
+                                                <input type="hidden" name="typeEbook" value="1">
 
                                                 <div class="form-group">
                                                     <label for="title"><?php echo get_phrase('title'); ?></label>
@@ -90,11 +131,6 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                                     </select>
                                                 </div>
 
-                                                <div class=" custom-control custom-checkbox text-center">
-                                                    <input type="checkbox" class="custom-control-input" name="is_download" id="is_download" value="1" <?= ($ebook['is_download'] == 1) ? 'checked' : '' ?>>
-                                                    <label class="custom-control-label" for="is_download"><?php echo get_phrase('Can this be downloaded'); ?></label>
-                                                </div>
-
                                                 <div class="form-group row mb-3">
                                                     <label class="col-md-3 col-form-label" for="description"><?php echo get_phrase('description'); ?></label>
                                                     <div class="col-md-12">
@@ -103,11 +139,11 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="publication_name"><?php echo get_phrase('publication_name'); ?></label>
-                                                    <input type="text" class="form-control" name="publication_name" id="publication_name" value="<?php echo $ebook['publication_name'] ?>" placeholder="<?php echo get_phrase('enter_publication_name'); ?>">
+                                                    <input type="text" class="form-control" name="publication_name" id="publication_name" value="<?php echo $ebook['publication_name'] ?>" placeholder="<?php echo get_phrase('enter_publication_name'); ?>" required>
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="edition"><?php echo get_phrase('edition'); ?></label>
-                                                    <input type="text" class="form-control" name="edition" id="edition" value="<?php echo $ebook['edition'] ?>" placeholder="<?php echo get_phrase('enter_edition'); ?>">
+                                                    <input type="text" class="form-control" name="edition" id="edition" value="<?php echo $ebook['edition'] ?>" placeholder="<?php echo get_phrase('enter_edition'); ?>" required>
                                                 </div>
 
                                                 <div class="form-group mb-3">
@@ -132,24 +168,6 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                                     <input type="url" class="form-control" name="video_url" value="<?= $ebook['video_url'] ?>" id="video_url">
                                                 </div>
 
-                                                <div class=" custom-control custom-checkbox text-center">
-                                                    <input type="checkbox" class="custom-control-input" name="status_cours" id="status_cours" value="1" <?= ($ebook['status_cours'] == 1) ? 'checked' : '' ?>>
-                                                    <label class="custom-control-label" for="status_cours"><?php echo get_phrase('quizzes can be added to this ebook'); ?></label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="multiple_course_id"><?php echo get_phrase('course_to_enrol'); ?></label>
-                                                    <select class="select2 form-control" data-toggle="select2" data-placeholder="Choose ..." name="course_id" id="multiple_course_id">
-                                                        <option value=""><?php echo get_phrase('select_a_course'); ?></option>
-                                                        <?php $course_list = $this->db->get('course')->result_array();
-                                                        foreach ($course_list as $course) : ?>
-                                                            <option value="<?php echo $course['id'] ?>" <?php if ($ebook['course_id'] == $course['id']) {
-                                                                                                            echo 'selected';
-                                                                                                        } ?>>
-                                                                <?php echo $course['title']; ?>
-                                                            </option>
-                                                        <?php endforeach; ?>
-                                                    </select>
-                                                </div>
                                             </div>
                                         </div>
                                     </div> <!-- end tab pane -->
@@ -200,33 +218,6 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                             </div> <!-- end col -->
                                         </div> <!-- end row -->
                                     </div> <!-- end tab-pane -->
-                                    <div class="tab-pane mt-4" id="media">
-                                        <div class="row justify-content-center">
-
-
-
-                                            <div class="col-xl-8">
-                                                <div class="form-group row mb-3">
-                                                    <label class="col-md-2 col-form-label" for="course_overview_url"><?php echo get_phrase('ebook_preview_file'); ?></label>
-                                                    <div class="col-md-10">
-                                                        <input type="file" class="form-control" value="hi" name="ebook_preview_file" id="ebook_preview_file">
-
-                                                    </div>
-
-                                                    <label class="col-md-2 col-form-label" for="ebook_complete_file"><?php echo get_phrase('ebook_complete_file'); ?></label>
-                                                    <div class="col-md-10">
-                                                        <input type="file" class="form-control" value="<?php echo $ebook['file']; ?>" name="ebook_complete_file" id="ebook_complete_file">
-
-                                                    </div>
-                                                </div>
-                                            </div> <!-- end col -->
-                                            <!-- this portion will be generated theme wise from the theme-config.json file Starts-->
-                                            <?php //include 'course_media_add.php'; 
-                                            ?>
-                                            <!-- this portion will be generated theme wise from the theme-config.json file Ends-->
-
-                                        </div> <!-- end row -->
-                                    </div>
                                     <div class="tab-pane mt-4" id="finish">
                                         <div class="row">
                                             <div class="col-12">

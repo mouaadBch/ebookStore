@@ -122,7 +122,7 @@ $number_of_visible_categories = 10;
                         </div>
                     </div>
                 <?php endforeach;?>
-            
+            <!-- pagination Start <div class="pagenation-items mb-0 mt-3"><?php #echo $this->pagination->create_links(); ?></div>-->
             </div>
         </div>
         </div>

@@ -766,19 +766,37 @@ class Home extends CI_Controller
 
     public function lesson($slug = "", $course_id = "", $lesson_id = "")
     {
-        $enroll_status = enroll_status($course_id);
-
-        $user_id = $this->session->userdata('user_id');
-        $course_instructor_ids = array();
         if ($this->session->userdata('user_login') != 1) {
             if ($this->session->userdata('admin_login') != 1) {
                 redirect('home', 'refresh');
             }
         }
+        //$enroll_status = enroll_status($course_id);
+        $enroll_status = false;
 
+        $user_id = $this->session->userdata('user_id');
+        $type_user = strtolower($this->session->userdata('role'));
+
+        if ($type_user == "admin") {
+            $enroll_status = 'valid';
+        } else {
+            $ebooks = $this->db->get_where('ebook', array('course_id' => $course_id))->result_array();
+            $ebook_instructor = 0;
+            foreach ($ebooks as $ebook) {
+                $ebook_payment = $this->db->get_where('ebook_payment', array('user_id' => $user_id, 'ebook_id' => $ebook['ebook_id']))->num_rows();
+                $ebook_instructor += $this->db->get_where('ebook', array('user_id' => $user_id, 'ebook_id' => $ebook['ebook_id']))->num_rows();
+                if (($ebook_payment > 0) || ($ebook_instructor > 0) || ($ebook['is_free'] == 1)) {
+                    $enroll_status = 'valid';
+                    break;
+                }
+            }
+        }
+        /* echo ">>>>>".$ebook_payment . $ebook_instructor . $ebook['is_free']. $ebook['ebook_id'] ;
+        exit; */
+
+        $course_instructor_ids = array();
         $course_details = $this->crud_model->get_course_by_id($course_id)->row_array();
         $course_instructor_ids = explode(',', $course_details['user_id']);
-
         if ($course_details['course_type'] == 'general') {
 
             //this function saved current lesson id and return previous lesson id if $lesson_id param is empty

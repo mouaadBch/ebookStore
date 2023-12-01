@@ -1,14 +1,9 @@
-<?php
-$ebook_banner = $this->ebook_model->get_ebook_banner_url($ebook['ebook_id']);
-$ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id']);
-?>
-
 <div class="row ">
     <div class="col-xl-12">
         <div class="card">
             <div class="card-body">
                 <h4 class="page-title"> <i class="mdi mdi-apple-keyboard-command title_icon"></i>
-                    <?php echo get_phrase('edit_ebook'); ?></h4>
+                    <?php echo get_phrase('add_new_ebook'); ?></h4>
             </div> <!-- end card body-->
         </div> <!-- end card -->
     </div><!-- end col-->
@@ -21,7 +16,7 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
 
                 <div class="row">
                     <div class="col-md-6">
-                        <h4 class="header-title my-1"><?php echo get_phrase('ebook_editing_form'); ?></h4>
+                        <h4 class="header-title my-1"><?php echo get_phrase('ebook_adding_form'); ?></h4>
                     </div>
                     <div class="col-md-6">
                         <a href="<?php echo site_url('addons/ebook_manager/ebook'); ?>" class="alignToTitle btn btn-outline-secondary btn-rounded btn-sm my-1"> <i class=" mdi mdi-keyboard-backspace"></i>
@@ -31,7 +26,7 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
 
                 <div class="row">
                     <div class="col-xl-12">
-                        <form class="required-form" action="<?php echo site_url('addons/ebook_manager/ebook/update/' . $ebook['ebook_id']); ?>" method="post" enctype="multipart/form-data">
+                        <form class="required-form" action="<?php echo site_url('addons/ebook_manager/ebook/add'); ?>" method="post" enctype="multipart/form-data">
                             <div id="basicwizard">
 
                                 <ul class="nav nav-pills nav-justified form-wizard-header">
@@ -49,12 +44,6 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a href="#media" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
-                                            <i class="mdi mdi-library-video"></i>
-                                            <span class="d-none d-sm-inline"><?php echo get_phrase('ebook_files'); ?></span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
                                         <a href="#finish" data-toggle="tab" class="nav-link rounded-0 pt-2 pb-2">
                                             <i class="mdi mdi-checkbox-marked-circle-outline"></i>
                                             <span class="d-none d-sm-inline"><?php echo get_phrase('finish'); ?></span>
@@ -68,11 +57,11 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                         <div class="row justify-content-center">
                                             <div class="col-md-10">
 
-                                                </h4>
-
+                                                <h4 class='mb-3'><?php echo get_phrase('add_a_new_ebook'); ?></h4>
+                                                <input type="hidden" name="typeEbook" value="1">
                                                 <div class="form-group">
                                                     <label for="title"><?php echo get_phrase('title'); ?></label>
-                                                    <input type="text" class="form-control" name="title" id="title" value="<?php echo $ebook['title'] ?>" placeholder="<?php echo get_phrase('enter_ebook_title'); ?>" required>
+                                                    <input type="text" class="form-control" name="title" id="title" placeholder="<?php echo get_phrase('enter_ebook_title'); ?>" required>
                                                 </div>
 
                                                 <div class="form-group">
@@ -82,39 +71,37 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                                             <?php echo get_phrase('select_a_category'); ?>
                                                         </option>
                                                         <?php foreach ($this->ebook_model->get_ebook_categories()->result_array() as $category) : ?>
-                                                            <option value="<?php echo $category['category_id']; ?>" <?php if ($category['category_id'] == $ebook['category_id']) {
-                                                                                                                        echo 'selected';
-                                                                                                                    } ?>>
-                                                                <?php echo $category['title'] ?></option>
+                                                            <option value="<?php echo $category['category_id']; ?>">
+                                                                <?php echo $category['title']; ?></option>
                                                         <?php endforeach; ?>
                                                     </select>
-                                                </div>
-
-                                                <div class=" custom-control custom-checkbox text-center">
-                                                    <input type="checkbox" class="custom-control-input" name="is_download" id="is_download" value="1" <?= ($ebook['is_download'] == 1) ? 'checked' : '' ?>>
-                                                    <label class="custom-control-label" for="is_download"><?php echo get_phrase('Can this be downloaded'); ?></label>
                                                 </div>
 
                                                 <div class="form-group row mb-3">
                                                     <label class="col-md-3 col-form-label" for="description"><?php echo get_phrase('description'); ?></label>
                                                     <div class="col-md-12">
-                                                        <textarea name="description" id="description" class="form-control"><?php echo $ebook['description']; ?></textarea>
+                                                        <textarea name="description" id="description" class="form-control"></textarea>
                                                     </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="publication_name"><?php echo get_phrase('publication_name'); ?></label>
-                                                    <input type="text" class="form-control" name="publication_name" id="publication_name" value="<?php echo $ebook['publication_name'] ?>" placeholder="<?php echo get_phrase('enter_publication_name'); ?>">
+
+                                                <div class="form-group row mb-3">
+                                                    <label class="col-md-3 col-form-label" for="description"><?php echo get_phrase('publication_name'); ?></label>
+                                                    <div class="col-md-12">
+                                                        <input name="publication_name" id="publication_name" class="form-control"></input>
+                                                    </div>
                                                 </div>
-                                                <div class="form-group">
-                                                    <label for="edition"><?php echo get_phrase('edition'); ?></label>
-                                                    <input type="text" class="form-control" name="edition" id="edition" value="<?php echo $ebook['edition'] ?>" placeholder="<?php echo get_phrase('enter_edition'); ?>">
+                                                <div class="form-group row mb-3">
+                                                    <label class="col-md-3 col-form-label" for="description"><?php echo get_phrase('edition'); ?></label>
+                                                    <div class="col-md-12">
+                                                        <input name="edition" id="edition" class="form-control"></input>
+                                                    </div>
                                                 </div>
 
-                                                <div class="form-group mb-3">
+                                                <div class=" form-group mb-3  ">
                                                     <label for="thumbnail"><?php echo get_phrase('ebook_thumbnail'); ?></label>
                                                     <div class="wrapper-image-preview" style="margin-left: -6px;">
                                                         <div class="box" style="width: 300px;">
-                                                            <div class="js--image-preview" style="background-image: url('<?php echo $ebook_thumbnail ?>'); background-color: #F5F5F5; background-size: cover; background-position: center;">
+                                                            <div class="js--image-preview" style="background-image: url('<?php echo base_url('uploads/ebook/thumbnails/placeholder.png') ?>'); background-color: #F5F5F5; background-size: cover; background-position: center;">
                                                             </div>
                                                             <div class="upload-options">
                                                                 <label for="thumbnail" class="btn"> <i class="mdi mdi-camera"></i>
@@ -126,29 +113,9 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                                         </div>
                                                     </div>
                                                 </div>
-
                                                 <div class="form-group">
                                                     <label for="video_url"><?php echo get_phrase('video_preview_url_ebook'); ?></label>
-                                                    <input type="url" class="form-control" name="video_url" value="<?= $ebook['video_url'] ?>" id="video_url">
-                                                </div>
-
-                                                <div class=" custom-control custom-checkbox text-center">
-                                                    <input type="checkbox" class="custom-control-input" name="status_cours" id="status_cours" value="1" <?= ($ebook['status_cours'] == 1) ? 'checked' : '' ?>>
-                                                    <label class="custom-control-label" for="status_cours"><?php echo get_phrase('quizzes can be added to this ebook'); ?></label>
-                                                </div>
-                                                <div class="form-group">
-                                                    <label for="multiple_course_id"><?php echo get_phrase('course_to_enrol'); ?></label>
-                                                    <select class="select2 form-control" data-toggle="select2" data-placeholder="Choose ..." name="course_id" id="multiple_course_id">
-                                                        <option value=""><?php echo get_phrase('select_a_course'); ?></option>
-                                                        <?php $course_list = $this->db->get('course')->result_array();
-                                                        foreach ($course_list as $course) : ?>
-                                                            <option value="<?php echo $course['id'] ?>" <?php if ($ebook['course_id'] == $course['id']) {
-                                                                                                            echo 'selected';
-                                                                                                        } ?>>
-                                                                <?php echo $course['title']; ?>
-                                                            </option>
-                                                        <?php endforeach; ?>
-                                                    </select>
+                                                    <input type="url" class="form-control" name="video_url" id="video_url">
                                                 </div>
                                             </div>
                                         </div>
@@ -159,9 +126,7 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                                 <div class="form-group row mb-3">
                                                     <div class="offset-md-2 col-md-10">
                                                         <div class="custom-control custom-checkbox">
-                                                            <input type="checkbox" class="custom-control-input" name="is_free" id="is_free" value="1" <?php if ($ebook['is_free']) {
-                                                                                                                                                            echo 'checked';
-                                                                                                                                                        } ?> onclick="togglePriceFields(this.id)">
+                                                            <input type="checkbox" class="custom-control-input" name="is_free" id="is_free" value="1" onclick="togglePriceFields(this.id)">
                                                             <label class="custom-control-label" for="is_free"><?php echo get_phrase('check_if_this_is_a_free_ebook'); ?></label>
                                                         </div>
                                                     </div>
@@ -171,17 +136,14 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                                     <div class="form-group row mb-3">
                                                         <label class="col-md-2 col-form-label" for="price"><?php echo get_phrase('ebook_price') . ' (' . currency_code_and_symbol() . ')'; ?></label>
                                                         <div class="col-md-10">
-                                                            <input type="number" class="form-control" id="price" name="price" value="<?php echo $ebook['price'] ?>" placeholder="<?php echo get_phrase('enter_ebook_price'); ?>" min="1">
-                                                            <span class="text-danger error-message d-hidden"><?php echo get_phrase('minimum_required_value_1'); ?></span>
+                                                            <input type="number" class="form-control" id="price" name="price" placeholder="<?php echo get_phrase('enter_ebook_price'); ?>" min="1">
                                                         </div>
                                                     </div>
 
                                                     <div class="form-group row mb-3">
                                                         <div class="offset-md-2 col-md-10">
                                                             <div class="custom-control custom-checkbox">
-                                                                <input type="checkbox" class="custom-control-input" name="discount_flag" id="discount_flag" value="1" <?php if ($ebook['discount_flag']) {
-                                                                                                                                                                            echo "checked";
-                                                                                                                                                                        } ?>>
+                                                                <input type="checkbox" class="custom-control-input" name="discount_flag" id="discount_flag" value="1">
                                                                 <label class="custom-control-label" for="discount_flag"><?php echo get_phrase('check_if_this_ebook_has_discount'); ?></label>
                                                             </div>
                                                         </div>
@@ -190,7 +152,7 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                                     <div class="form-group row mb-3">
                                                         <label class="col-md-2 col-form-label" for="discounted_price"><?php echo get_phrase('discounted_price') . ' (' . currency_code_and_symbol() . ')'; ?></label>
                                                         <div class="col-md-10">
-                                                            <input type="number" class="form-control" name="discounted_price" id="discounted_price" onkeyup="calculateDiscountPercentage(this.value)" value="<?php echo $ebook['discounted_price'] ?>" min="0">
+                                                            <input type="number" class="form-control" name="discounted_price" id="discounted_price" onkeyup="calculateDiscountPercentage(this.value)" min="0">
                                                             <small class="text-muted"><?php echo get_phrase('this_ebook_has'); ?>
                                                                 <span id="discounted_percentage" class="text-danger">0%</span>
                                                                 <?php echo get_phrase('discount'); ?></small>
@@ -200,33 +162,6 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                             </div> <!-- end col -->
                                         </div> <!-- end row -->
                                     </div> <!-- end tab-pane -->
-                                    <div class="tab-pane mt-4" id="media">
-                                        <div class="row justify-content-center">
-
-
-
-                                            <div class="col-xl-8">
-                                                <div class="form-group row mb-3">
-                                                    <label class="col-md-2 col-form-label" for="course_overview_url"><?php echo get_phrase('ebook_preview_file'); ?></label>
-                                                    <div class="col-md-10">
-                                                        <input type="file" class="form-control" value="hi" name="ebook_preview_file" id="ebook_preview_file">
-
-                                                    </div>
-
-                                                    <label class="col-md-2 col-form-label" for="ebook_complete_file"><?php echo get_phrase('ebook_complete_file'); ?></label>
-                                                    <div class="col-md-10">
-                                                        <input type="file" class="form-control" value="<?php echo $ebook['file']; ?>" name="ebook_complete_file" id="ebook_complete_file">
-
-                                                    </div>
-                                                </div>
-                                            </div> <!-- end col -->
-                                            <!-- this portion will be generated theme wise from the theme-config.json file Starts-->
-                                            <?php //include 'course_media_add.php'; 
-                                            ?>
-                                            <!-- this portion will be generated theme wise from the theme-config.json file Ends-->
-
-                                        </div> <!-- end row -->
-                                    </div>
                                     <div class="tab-pane mt-4" id="finish">
                                         <div class="row">
                                             <div class="col-12">
@@ -253,9 +188,6 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                             <a href="javascript::" class="btn btn-info"> <i class="mdi mdi-arrow-right-bold"></i> </a>
                                         </li>
                                     </ul>
-
-
-
                                 </div> <!-- tab-content -->
                             </div> <!-- end #progressbarwizard-->
                         </form>
@@ -324,18 +256,6 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
             $('#price').prop('required', true);
         }
     }
-    $('document').ready(function() {
-        $('input[min]').keyup(function() {
-            var val = $(this).val();
-            var requiredVal = $(this).attr('min');
-            console.log(val, requiredVal);
-            if (Number(val) >= Number(requiredVal)) {
-                $(this).parent().children('.error-message').hide();
-            } else {
-                $(this).parent().children('.error-message').show();
-            }
-        });
-    });
 
     function calculateDiscountPercentage(discounted_price) {
         if (discounted_price > 0) {

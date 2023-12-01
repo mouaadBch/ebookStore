@@ -240,6 +240,13 @@ class Ebook_model extends CI_Model
         $data['category_id'] = htmlspecialchars($this->input->post('category_id'));
         $data['is_download'] = ($this->input->post('is_download') != null) ? 1 : 0;
         $data['video_url'] = ($this->input->post('video_url') != null) ? $this->input->post('video_url') : null;
+        /* code mouaad */
+        $data['type'] = ($this->input->post('typeEbook') == '1') ? "flipbook" : null;
+        $data['status_cours'] = ($this->input->post('status_cours') == 1) ? 1 : 0;
+        if ($this->input->post('course_id') != null && $this->session->userdata('admin_login')) {
+            $data['course_id'] = $this->input->post('course_id');
+        }
+        /* // code mouaad */
         // $ext  = (new SplFileInfo($path))->getExtension();
         if ($_FILES['thumbnail']['name'] != "") {
             $ext  = (new SplFileInfo($_FILES['thumbnail']['name']))->getExtension();
@@ -249,19 +256,19 @@ class Ebook_model extends CI_Model
             $data['thumbnail'] = 'placeholder.png';
         }
 
-        if ($_FILES['banner']['name'] != "") {
+        if (isset($_FILES['banner']['name']) && $_FILES['banner']['name'] != "") {
             $ext  = (new SplFileInfo($_FILES['banner']['name']))->getExtension();
             $data['banner'] = md5(rand(10000000, 20000000)) . '.' . $ext;
             move_uploaded_file($_FILES['banner']['tmp_name'], 'uploads/ebook/banner/' . $data['banner']);
         } else {
             $data['banner'] = 'placeholder.png';
         }
-        if ($_FILES['ebook_preview_file']['name'] != "") {
+        if (isset($_FILES['ebook_preview_file']['name']) && $_FILES['ebook_preview_file']['name'] != "") {
             $ext  = (new SplFileInfo($_FILES['ebook_preview_file']['name']))->getExtension();
             $data['preview'] = md5(rand(10000000, 20000000)) . '.' . $ext;
             move_uploaded_file($_FILES['ebook_preview_file']['tmp_name'], 'uploads/ebook/file/ebook_preview/' . $data['preview']);
         }
-        if ($_FILES['ebook_complete_file']['name'] != "") {
+        if (isset($_FILES['ebook_complete_file']['name']) && $_FILES['ebook_complete_file']['name'] != "") {
             $ext  = (new SplFileInfo($_FILES['ebook_complete_file']['name']))->getExtension();
             $data['file'] = md5(rand(10000000, 20000000)) . '.' . $ext;
             move_uploaded_file($_FILES['ebook_complete_file']['tmp_name'], 'uploads/ebook/file/ebook_full/' . $data['file']);
@@ -301,6 +308,13 @@ class Ebook_model extends CI_Model
         $data['category_id'] = htmlspecialchars($this->input->post('category_id'));
         $data['is_download'] = ($this->input->post('is_download') != null) ? 1 : 0;
         $data['video_url'] = ($this->input->post('video_url') != null) ? $this->input->post('video_url') : null;
+        $data['type'] = ($this->input->post('typeEbook') == '1') ? "flipbook" : null;
+
+        $data['status_cours'] = ($this->input->post('status_cours') == 1) ? 1 : 0;
+        if ($this->session->userdata('admin_login')) {
+            $data['course_id'] = $this->input->post('course_id')??null;
+        }
+
         $ebook = $this->get_ebook_by_id($ebook_id)->row_array();
         if ($_FILES['thumbnail']['name'] != "") {
             $ext  = (new SplFileInfo($_FILES['thumbnail']['name']))->getExtension();
@@ -308,7 +322,7 @@ class Ebook_model extends CI_Model
             $data['thumbnail'] = md5(rand(10000000, 20000000)) . '.' . $ext;
             move_uploaded_file($_FILES['thumbnail']['tmp_name'], 'uploads/ebook/thumbnails/' . $data['thumbnail']);
         }
-        if ($_FILES['banner']['name'] != "") {
+        if (isset($_FILES['banner']['name']) && $_FILES['banner']['name'] != "") {
             $ext  = (new SplFileInfo($_FILES['banner']['name']))->getExtension();
             unlink('uploads/ebook/banner/' . $ebook['banner']);
             $data['banner'] = md5(rand(10000000, 20000000)) . '.' . $ext;

@@ -56,7 +56,7 @@ class Notification extends CI_Model
         return true;
     }
 
-    function push_notification($user_id, $title, $message, $link = '', $status)
+    function push_notification($user_id, $title, $message, $link = '', $status='')
     {
         $data['user_id'] = $user_id;
         $data['title'] = $title;

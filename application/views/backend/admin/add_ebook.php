@@ -107,26 +107,6 @@
                                                         <input name="edition" id="edition" class="form-control"></input>
                                                     </div>
                                                 </div>
-                                                <!-- <div class=" col-md-6form-group mb-3">
-                                                        <label for="banner"><?php #echo get_phrase('ebook_banner'); 
-                                                                            ?></label>
-                                                        <div class="wrapper-image-preview" style="margin-left: -6px;">
-                                                            <div class="box" style="width: 300px;">
-                                                                <div class="js--image-preview" style="background-image: url('<?php #echo base_url('uploads/ebook/banner/placeholder.png') 
-                                                                                                                                ?>'); background-color: #F5F5F5; background-size: cover; background-position: center;">
-                                                                </div>
-                                                                <div class="upload-options">
-                                                                    <label for="banner" class="btn"> <i class="mdi mdi-camera"></i>
-                                                                        <?php #echo get_phrase('choose_a_banner'); 
-                                                                        ?>
-                                                                        <br> <small>(2000 x 500)</small>
-                                                                    </label>
-                                                                    <input id="banner" style="visibility:hidden;" type="file" class="image-upload" name="banner" accept="image/*">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div> -->
-
                                                 <div class=" form-group mb-3  ">
                                                     <label for="thumbnail"><?php echo get_phrase('ebook_thumbnail'); ?></label>
                                                     <div class="wrapper-image-preview" style="margin-left: -6px;">
@@ -146,6 +126,20 @@
                                                 <div class="form-group">
                                                     <label for="video_url"><?php echo get_phrase('video_preview_url_ebook'); ?></label>
                                                     <input type="url" class="form-control" name="video_url" id="video_url">
+                                                </div>
+                                                <div class=" custom-control custom-checkbox text-center">
+                                                    <input type="checkbox" class="custom-control-input" name="status_cours" id="status_cours" value="1">
+                                                    <label class="custom-control-label" for="status_cours"><?php echo get_phrase('quizzes can be added to this ebook'); ?></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="multiple_course_id"><?php echo get_phrase('course_to_enrol'); ?><span class="required">*</span> </label>
+                                                    <select class="select2 form-control" data-toggle="select2" data-placeholder="Choose ..." name="course_id" id="multiple_course_id" >
+                                                        <option value=""><?php echo get_phrase('select_a_course'); ?></option>
+                                                        <?php $course_list = $this->db->get('course')->result_array();
+                                                        foreach ($course_list as $course) : ?>
+                                                            <option value="<?php echo $course['id'] ?>"><?php echo $course['title']; ?></option>
+                                                        <?php endforeach; ?>
+                                                    </select>
                                                 </div>
                                             </div>
                                         </div>

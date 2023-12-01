@@ -63,14 +63,24 @@ $user_id = $this->session->userdata('user_id');
                 </div>
                 <div class="ebook-content mt-4 position-relative">
                     <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#ebookModal"><?php echo get_phrase('read_preview') ?></button>
-                    <?php if ($ebook_details['is_free']) :
+                    <?php $linkView = ($ebook_details['type'] == 'flipbook') ? base_url('addons/ebook/viewTurnContent/' . $ebook_details['ebook_id']) : base_url('addons/ebook/view/' . $ebook_details['ebook_id']);
+
+                    if ($ebook_details['is_free']) :
                         if ($this->session->userdata('user_id')) { ?>
-                            <a href="<?php echo base_url('addons/ebook/view/' . $ebook_details['ebook_id']) ?>" class="btn btn-primary" type="button"><?php echo site_phrase('View'); ?></a>
+                            <a href="<?php echo $linkView ?>" class="btn btn-primary" type="button"><?php echo site_phrase('View'); ?></a>
                             <?php
-                            if ($ebook_details['is_download'] == 1) {
-                                if ($this->session->userdata('user_id')) { ?>
-                                    <a href="<?= site_url('addons/ebook/download_ebook/' . $ebook_details['ebook_id']) ?>" class="btn btn-primary" type="button"> <?= get_phrase('download') ?> </a>
-                                <?php } ?>
+                            if ($ebook_details['is_download'] == 1) { ?>
+                                <a href="<?= site_url('addons/ebook/download_ebook/' . $ebook_details['ebook_id']) ?>" class="btn btn-primary" type="button"> <?= get_phrase('download') ?> </a>
+                            <?php } ?>
+                            <?php if ($ebook_details['status_cours'] == 1) { ?>
+                                <?php
+                                $course_ebook = $this->db->where('status', 'active')->get('course')->row_array();
+                                if ($course_ebook) { ?>
+                                    <a href="<?= site_url('home/lesson/ebook/' . $ebook_details['course_id']) ?>" target="_blank" class="btn btn-primary" type="button"> <?= get_phrase('course') ?> </a>
+                                <?php } else { ?>
+                                    <button href="#" class="btn btn-primary" disabled type="button"> <?= get_phrase('course') ?> </button>
+                                <?php }
+                                ?>
                             <?php } ?>
                         <?php } else { ?>
                             <a href="<?php echo site_url('login') ?>" class="btn btn-danger" type="button"><?php echo site_phrase('login'); ?></a>
@@ -79,12 +89,22 @@ $user_id = $this->session->userdata('user_id');
                         ?>
                     <?php else : ?>
                         <?php if (($this->db->get_where('ebook_payment', array('user_id' => $this->session->userdata('user_id'), 'ebook_id' => $ebook_details['ebook_id']))->num_rows() > 0) || ($ebook_details['user_id'] == $this->session->userdata('user_id')) || (strtolower($this->session->userdata('role') ?? '') == "admin")) : ?>
-                            <a href="<?php echo base_url('addons/ebook/view/' . $ebook_details['ebook_id']) ?>" class="btn btn-primary" type="button"><?php echo site_phrase('View'); ?></a>
+                            <a href="<?php echo $linkView ?>" class="btn btn-primary" type="button"><?php echo site_phrase('View'); ?></a>
                             <?php
                             if ($ebook_details['is_download'] == 1) {
                                 if ($this->session->userdata('user_id')) { ?>
                                     <a href="<?= site_url('addons/ebook/download_ebook/' . $ebook_details['ebook_id']) ?>" class="btn btn-primary" type="button"> <?= get_phrase('download') ?> </a>
                                 <?php } ?>
+                            <?php } ?>
+                            <?php if ($ebook_details['status_cours'] == 1) { ?>
+                                <?php
+                                $course_ebook = $this->db->where('status', 'active')->get('course')->row_array();
+                                if ($course_ebook) { ?>
+                                    <a href="<?= site_url('home/lesson/ebook/' . $ebook_details['course_id']) ?>" target="_blank" class="btn btn-primary" type="button"> <?= get_phrase('course') ?> </a>
+                                <?php } else { ?>
+                                    <button href="#" class="btn btn-primary" disabled type="button"> <?= get_phrase('course') ?> </button>
+                                <?php }
+                                ?>
                             <?php } ?>
                         <?php else : ?>
                             <a href="<?php echo base_url('ebook/buy/' . $ebook_details['ebook_id']) ?>" class="btn btn-primary" type="button"><?php echo site_phrase('buy_now'); ?></a>
