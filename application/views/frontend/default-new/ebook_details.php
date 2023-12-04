@@ -76,9 +76,9 @@ $user_id = $this->session->userdata('user_id');
                                 <?php
                                 $course_ebook = $this->db->where('status', 'active')->get('course')->row_array();
                                 if ($course_ebook) { ?>
-                                    <a href="<?= site_url('home/lesson/ebook/' . $ebook_details['course_id']) ?>" target="_blank" class="btn btn-primary" type="button"> <?= get_phrase('course') ?> </a>
+                                    <a href="<?= site_url('home/lesson/ebook/' . $ebook_details['course_id']) ?>" target="_blank" class="btn btn-primary" type="button"> <?= get_phrase('annexes') ?> </a>
                                 <?php } else { ?>
-                                    <button href="#" class="btn btn-primary" disabled type="button"> <?= get_phrase('course') ?> </button>
+                                    <button href="#" class="btn btn-primary" disabled type="button"> <?= get_phrase('annexes') ?> </button>
                                 <?php }
                                 ?>
                             <?php } ?>
@@ -100,9 +100,9 @@ $user_id = $this->session->userdata('user_id');
                                 <?php
                                 $course_ebook = $this->db->where('status', 'active')->get('course')->row_array();
                                 if ($course_ebook) { ?>
-                                    <a href="<?= site_url('home/lesson/ebook/' . $ebook_details['course_id']) ?>" target="_blank" class="btn btn-primary" type="button"> <?= get_phrase('course') ?> </a>
+                                    <a href="<?= site_url('home/lesson/ebook/' . $ebook_details['course_id']) ?>" target="_blank" class="btn btn-primary" type="button"> <?= get_phrase('annexes') ?> </a>
                                 <?php } else { ?>
-                                    <button href="#" class="btn btn-primary" disabled type="button"> <?= get_phrase('course') ?> </button>
+                                    <button href="#" class="btn btn-primary" disabled type="button"> <?= get_phrase('annexes') ?> </button>
                                 <?php }
                                 ?>
                             <?php } ?>
