@@ -107,28 +107,8 @@ $ebook_thumbnail = $this->ebook_model->get_ebook_thumbnail_url($ebook['ebook_id'
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="edition"><?php echo get_phrase('edition'); ?></label>
-                                                    <input type="text" class="form-control" name="edition" id="edition" value="<?php echo $ebook['edition'] ?>" placeholder="<?php echo get_phrase('enter_edition'); ?>" required>
+                                                    <input type="text" class="form-control" name="edition" id="edition" value="<?php echo $ebook['edition'] ?>" placeholder="<?php echo get_phrase('enter_edition'); ?>" >
                                                 </div>
-
-                                                <!-- <div class="form-group mb-3">
-                                                    <label for="banner"><?php #echo get_phrase('ebook_banner'); 
-                                                                        ?></label>
-                                                    <div class="wrapper-image-preview" style="margin-left: -6px;">
-                                                        <div class="box" style="width: 300px;">
-                                                            <div class="js--image-preview" style="background-image: url('<?php #echo $ebook_banner 
-                                                                                                                            ?>'); background-color: #F5F5F5; background-size: cover; background-position: center;">
-                                                            </div>
-                                                            <div class="upload-options">
-                                                                <label for="banner" class="btn"> <i class="mdi mdi-camera"></i>
-                                                                    <?php #echo get_phrase('choose_a_banner'); 
-                                                                    ?>
-                                                                    <br> <small>(2000 x 500)</small>
-                                                                </label>
-                                                                <input id="banner" style="visibility:hidden;" type="file" class="image-upload" name="banner" accept="image/*">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div> -->
 
                                                 <div class="form-group mb-3">
                                                     <label for="thumbnail"><?php echo get_phrase('ebook_thumbnail'); ?></label>
